@@ -1,34 +1,36 @@
+# E-Commerce-Website-Using-PHP
 
-# Project : Rent fashion 
+## Summary
+Hello friends, This is my first full e-commerce project. This is free. Anybody can use and moderate this project.
 
-A rental website through which you can rent fashion items like
-clothes, jewelry, etc, and let others rent and earn. 
+## Platform Used
+### Front-End
+  (i) HTML5 <br>
+  (ii) CSS3 <br>
+  (iii) JavaScript <br>
 
+### Back-End
+  (i) PHP <br>
+  (ii) MySQL <br>
 
-# Features :
- 1) Buyer Login and Seller Login
- 2) Seller can add items that they want to sell
- 3) Add to Cart option for Buyer
- 4) Payment Gateway for paying rent
- 5) Email alert if rent didn’t paid on time
- 6) Late fees mechanism
- 7) Trending Fashion
- 8) Seller can track their Sale
+## Key Features
+### Public User
+(i) Search Product <br>
+(ii) View Product <br>
+(iii) Create User Account <br>
 
+### Signin User
+(i) Search Product <br>
+(ii) View Product <br>
+(iii) Create Order <br>
+(iv) Change Email & Password <br>
+(v) Can View Previous Order with UPDATE and DELETE <br>
 
+### Admin
+(i) Add New Product <br>
+(ii) Update Product <br>
+(iii) Delete Product <br>
+(iv) Confirm Order <br>
 
-
-# Tech Stack :
-1) PHP, Laravel ,MySQL
-2) HTML, CSS, JavaScript
-3) JQuery
-
-
-
-# Group Members :
-1) Harsh  (200094)
-2) Nenika (200017)
-3) Nikita  (200100)
-
-
-
+## Conclusion
+There are also many more feature which are not in the list. Feel free to use this project
