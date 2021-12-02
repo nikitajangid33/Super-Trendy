@@ -47,6 +47,8 @@ if (isset($_POST['order'])) {
 $mbl = $_POST['mobile'];
 $addr = $_POST['address'];
 $del = substr($_POST['Delivery'],0,20);
+$mode=$_POST['paymode'];
+
 //triming name
 	try {
 		if(empty($_POST['mobile'])) {
@@ -64,6 +66,54 @@ $del = substr($_POST['Delivery'],0,20);
 
 		
 		// Check if email already exists
+        if($mode=='prepaid'){
+            require_once 'login1.php';
+            $d = date("Y-m-d"); //Year - Month - Day
+
+            // send email
+            $msg = "
+					
+						Your Order suc
+
+						
+						";
+            //if (@mail($uemail_db,"eBuyBD Product Order",$msg, "From:eBuyBD <no-reply@ebuybd.xyz>")) {
+            $result = mysqli_query($ccon,"SELECT * FROM cart WHERE uid='$user'");
+            $t = mysqli_num_rows($result);
+            if($t <= 0) {
+                throw new Exception('No product in cart. Add product first.');
+
+            }
+            $total=0;
+            while ($get_p = mysqli_fetch_assoc($result)) {
+                $num = $get_p['quantity'];
+                $pid = $get_p['pid'];
+
+
+                mysqli_query($ccon,"INSERT INTO orders (uid,pid,quantity,oplace,mobile,odate,delivery,mode) VALUES ('$user','$pid',$num,'$_POST[address]','$_POST[mobile]','$d','$del','$mode')");
+                //decrease available qty
+                $getposts = mysqli_query($ccon,"SELECT * FROM products WHERE id ='$pid'") or die(mysqli_error());
+                if (mysqli_num_rows($getposts)) {
+                    $row = mysqli_fetch_assoc($getposts);
+                    $available =$row['available'];
+                    $remainingQty=$available-$num;
+                    $total += ($num*$row['price']);
+
+                    //update
+                    if($result2 = mysqli_query($ccon,"UPDATE products SET available=$remainingQty WHERE id='$pid'")){}
+
+                }
+            }
+
+            if(mysqli_query($ccon,"DELETE FROM cart WHERE uid='$user'")){
+
+                //success message
+
+            }
+            $_SESSION['total'] = $total;
+            exit(0);
+
+        }
 		
 		
 						$d = date("Y-m-d"); //Year - Month - Day
@@ -86,7 +136,7 @@ $del = substr($_POST['Delivery'],0,20);
 							$num = $get_p['quantity'];
 							$pid = $get_p['pid'];
 
-							mysqli_query($ccon,"INSERT INTO orders (uid,pid,quantity,oplace,mobile,odate,delivery) VALUES ('$user','$pid',$num,'$_POST[address]','$_POST[mobile]','$d','$del')");
+							mysqli_query($ccon,"INSERT INTO orders (uid,pid,quantity,oplace,mobile,odate,delivery,mode) VALUES ('$user','$pid',$num,'$_POST[address]','$_POST[mobile]','$d','$del','$mode')");
 							//decrease available qty
                             $getposts = mysqli_query($ccon,"SELECT * FROM products WHERE id ='$pid'") or die(mysqli_error());
                             if (mysqli_num_rows($getposts)) {
@@ -303,7 +353,7 @@ $del = substr($_POST['Delivery'],0,20);
 								<form action="" method="POST" class="registration">
 							
 									<div class="signup_form" >
-									<h3 style="color:red;font-size:18px; padding: 5px;">Accepting CashOnDelivery Only</h3>
+									
 										<div>
 											<td>
 												<input name="fullname" placeholder="your name" required="required" class="email signupbox" type="text" size="30" value="'.$uname_db.'">
@@ -342,6 +392,19 @@ $del = substr($_POST['Delivery'],0,20);
 
 
 										</td>
+										<div>
+										<td>
+
+										<font style="italic" family="arial" size="5px" color="#169e">
+										Mode of Payment <br>
+										
+
+										 <input name="paymode" required="required" value="cod" type="radio"  placeholder="Mode Of Payment"> Cash on Delivery </br>
+										 <input name="paymode" type="radio" value="prepaid" required="required" placeholder="Mode Of Payment"> Prepaid(using Card) </br>
+										 </font>
+
+
+										</td></div>
 										</div>
 
 
@@ -352,6 +415,8 @@ $del = substr($_POST['Delivery'],0,20);
 										<div>
 											<input onclick="myFunction()" name="order" class="uisignupbutton signupbutton" type="submit" value="Confirm Order">
 										</div>
+										
+										
 										<div class="signup_error_msg"> '; ?>
 											<?php 
 												if (isset($error_message)) {echo $error_message;}

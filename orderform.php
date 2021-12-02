@@ -48,6 +48,8 @@ $mbl = $_POST['mobile'];
 $addr = $_POST['address'];
 $quan = $_POST['Quantity'];
 $del = substr($_POST['Delivery'],0,20);
+    $mode=$_POST['paymode'];
+    $_SESSION['total'] =$quan * $price;
 //triming name
 	try {
 		if(empty($_POST['mobile'])) {
@@ -67,6 +69,39 @@ $del = substr($_POST['Delivery'],0,20);
 			
 		}
 
+        if($mode=='prepaid'){
+            require_once 'login1.php';
+            $d = date("Y-m-d"); //Year - Month - Day
+
+            // send email
+            $msg = "
+					
+						Your Order suc
+
+						
+						";
+            //if (@mail($uemail_db,"eBuyBD Product Order",$msg, "From:eBuyBD <no-reply@ebuybd.xyz>")) {
+
+            if(mysqli_query($ccon,"INSERT INTO orders (uid,pid,quantity,oplace,mobile,odate,delivery,mode) VALUES ('$user','$poid',$quan,'$_POST[address]','$_POST[mobile]','$d','$del','$mode')")) {
+
+                //success message
+                //decrease available qty
+                $getposts = mysqli_query($ccon, "SELECT * FROM products WHERE id ='$poid'") or die(mysqli_error());
+                if (mysqli_num_rows($getposts)) {
+                    $row = mysqli_fetch_assoc($getposts);
+                    $available = $row['available'];
+                    $remainingQty = $available - $quan;
+
+                    //update
+                    if ($result = mysqli_query($ccon, "UPDATE products SET available=$remainingQty WHERE id='$poid'")) {
+                    }
+
+                }
+            }
+
+            exit(0);
+
+        }
 		
 		// Check if email already exists
 		
@@ -82,7 +117,7 @@ $del = substr($_POST['Delivery'],0,20);
 						";
 						//if (@mail($uemail_db,"eBuyBD Product Order",$msg, "From:eBuyBD <no-reply@ebuybd.xyz>")) {
 							
-						if(mysqli_query($ccon,"INSERT INTO orders (uid,pid,quantity,oplace,mobile,odate,delivery) VALUES ('$user','$poid',$quan,'$_POST[address]','$_POST[mobile]','$d','$del')")){
+						if(mysqli_query($ccon,"INSERT INTO orders (uid,pid,quantity,oplace,mobile,odate,delivery,mode) VALUES ('$user','$poid',$quan,'$_POST[address]','$_POST[mobile]','$d','$del','$mode')")){
 
 							//success message
                             //decrease available qty
@@ -132,7 +167,7 @@ $del = substr($_POST['Delivery'],0,20);
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Men & Women wear</title>
+	<title>Confirm Order</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -245,7 +280,7 @@ $del = substr($_POST['Delivery'],0,20);
 						<div>
 							<form action="" method="POST" class="registration">
 								<div class="signup_form">
-								<h3 style="color:red;font-size:18px; padding: 5px;">Accepting CashOnDelivery Only</h3>
+								
 									<div>
 										<td>
 											<input name="fullname" placeholder="your name" required="required" class="email signupbox" type="text" size="30" value="'.$uname_db.'">
@@ -285,6 +320,20 @@ $del = substr($_POST['Delivery'],0,20);
 
 									</td>
 									</div>
+									<div>
+									<td>
+
+										<font style="italic" family="arial" size="5px" color="#169e">
+										Mode of Payment <br>
+										
+
+										 <input name="paymode" required="required" value="cod" type="radio"  placeholder="Mode Of Payment"> Cash on Delivery </br>
+										 <input name="paymode" type="radio" value="prepaid" required="required" placeholder="Mode Of Payment"> Prepaid(using Card) </br>
+										 </font>
+
+
+										</td>
+</div>
 
 
 									<div>
@@ -305,6 +354,9 @@ $del = substr($_POST['Delivery'],0,20);
 									<div>
 										<input name="order" class="uisignupbutton signupbutton" type="submit" value="Confirm Order">
 									</div>
+									
+									<div>
+                                    </div>
 									<div class="signup_error_msg"> '; ?>
 										<?php 
 											if (isset($error_message)) {echo $error_message;}
