@@ -79,14 +79,25 @@ $_POST['last_name'] = trim($_POST['last_name']);
 						$_POST['password'] = md5($_POST['password']);
 						$confirmCode   = substr( rand() * 900000 + 100000, 0, 6 );
 						// send email
-						$msg = "
-						...
-						
-						Your activation code: ".$confirmCode."
-						Signup email: ".$_POST['email']."
-						
-						";
-						//if (@mail($_POST['email'],"eBuyBD Activation Code",$msg, "From:eBuyBD <no-reply@ebuybd.xyz>")) {
+//						$msg = "
+//						...
+//
+//						Your activation code: ".$confirmCode."
+//						Signup email: ".$_POST['email']."
+//
+//						";
+                        $to_email = $u_email;
+                        $subject = "Your code";
+                        $body = "Hi, your login code is $confirmCode";
+                        $headers = "From: supertrendyproject@gmail.com";
+
+                        if (mail($to_email, $subject, $body, $headers)) {
+                            echo "Email successfully sent to $to_email...";
+                        } else {
+                            echo "Email sending failed...";
+                        }
+
+                        //if (@mail($_POST['email'],"eBuyBD Activation Code",$msg, "From:eBuyBD <no-reply@ebuybd.xyz>")) {
 							
 						$result = mysqli_query($ccon,"INSERT INTO user (firstName,lastName,email,mobile,address,password,confirmCode) VALUES ('$_POST[first_name]','$_POST[last_name]','$_POST[email]','$_POST[mobile]','$_POST[signupaddress]','$_POST[password]','$confirmCode')");
 						if($result==false){

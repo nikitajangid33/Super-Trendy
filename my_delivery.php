@@ -103,7 +103,8 @@ $search_value = "";
 							<table class="rightsidemenu">
 								<tr style="font-weight: bold;" colspan="10" bgcolor="#3A5487">
 									<th>Product Name</th>
-									<th>Delevery Date</th>
+									<th>Delivery Date</th>
+                                    <th>Return Date</th>
 								</tr>
 								<tr>
 									<?php include ( "inc/connect.inc.php");
@@ -116,6 +117,7 @@ $search_value = "";
 										$mobile = $row['mobile'];
 										$odate = $row['odate'];
 										$ddate = $row['ddate'];
+                                        $rdate = $row['rdate'];
 										$dstatus = $row['dstatus'];
 										
 										//get product info
@@ -131,6 +133,7 @@ $search_value = "";
 									 ?>
 									<th><?php echo $pName; ?></th>
 									<th><?php echo $ddate; ?></th>
+                                    <th><?php echo $rdate; ?></th>
 								</tr>
 								<?php } ?>
 							</table>

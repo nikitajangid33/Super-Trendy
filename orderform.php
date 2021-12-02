@@ -43,11 +43,11 @@ $getposts = mysqli_query($ccon,"SELECT * FROM products WHERE id ='$poid'") or di
 //order
 
 if (isset($_POST['order'])) {
-//declere veriable
+//declare veriable
 $mbl = $_POST['mobile'];
 $addr = $_POST['address'];
 $quan = $_POST['Quantity'];
-$del = $_POST['Delivery'];
+$del = substr($_POST['Delivery'],0,20);
 //triming name
 	try {
 		if(empty($_POST['mobile'])) {
@@ -85,7 +85,18 @@ $del = $_POST['Delivery'];
 						if(mysqli_query($ccon,"INSERT INTO orders (uid,pid,quantity,oplace,mobile,odate,delivery) VALUES ('$user','$poid',$quan,'$_POST[address]','$_POST[mobile]','$d','$del')")){
 
 							//success message
-							
+                            //decrease available qty
+                            $getposts = mysqli_query($ccon,"SELECT * FROM products WHERE id ='$poid'") or die(mysqli_error());
+                            if (mysqli_num_rows($getposts)) {
+                                $row = mysqli_fetch_assoc($getposts);
+                                $available =$row['available'];
+                                $remainingQty=$available-$quan;
+
+                                //update
+                                if($result = mysqli_query($ccon,"UPDATE products SET available=$remainingQty WHERE id='$poid'")){}
+
+                            }
+
 
 							
 						$success_message = '
@@ -104,7 +115,9 @@ $del = $_POST['Delivery'];
 						
 
 							
-						}
+						}else{
+
+                        }
 						//}
 
 	}
@@ -165,16 +178,16 @@ $del = $_POST['Delivery'];
 	<div class="categolis">
 		<table>
 			<tr>
-				<th>
-					<a href="OurProducts/MenWomenWear.php" style="text-decoration: none;color:#040403 ;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">Noodles&Canned</a>
-				</th>
-				<th><a href="OurProducts/Seasonings.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">Seasonings</a></th>
-				<th><a href="OurProducts/Drinks.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">Drinks</a></th>
-				<th><a href="OurProducts/Accessories.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">Snacks</a></th>
-				<th><a href="OurProducts/FootWear.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">Sweets</a></th>
-				<th><a href="OurProducts/Watches.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">Soap&Detergent</a></th>
-				<th><a href="OurProducts/PartyWear.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">Shampoo</a></th>
-				<th><a href="OurProducts/KidFashion.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">Hygiene</a></th>
+                <th>
+                    <a href="MenWomenWear.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">Men & Women Wear</a>
+                </th>
+                <th><a href="Seasonings.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #24bfae;border-radius: 12px;">Seasonings</a></th>
+                <th><a href="Drinks.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">Drinks</a></th>
+                <th><a href="Accessories.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">Accessories</a></th>
+                <th><a href="FootWear.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">FootWear</a></th>
+                <th><a href="Watches.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">Watches</a></th>
+                <th><a href="PartyWear.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">PartyWear</a></th>
+                <th><a href="KidFashion.php" style="text-decoration: none;color: #040403;padding: 4px 12px;background-color: #e6b7b8;border-radius: 12px;">KidFashion</a></th>
 			</tr>
 		</table>
 	</div>

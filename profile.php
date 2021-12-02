@@ -106,9 +106,10 @@ $search_value = "";
 									<th>Price</th>
 									<th>Total Product</th>
 									<th>Order Date</th>
-									<th>Delevery Date</th>
-									<th>Delevery Place</th>
-									<th>Delevery Status</th>
+									<th>Delivery Date</th>
+                                    <th>Return Date</th>
+									<th>Delivery Place</th>
+									<th>Delivery Status</th>
 									<th>View</th>
 								</tr>
 								<tr>
@@ -122,6 +123,7 @@ $search_value = "";
 										$mobile = $row['mobile'];
 										$odate = $row['odate'];
 										$ddate = $row['ddate'];
+                                        $rdate = $row['rdate'];
 										$dstatus = $row['dstatus'];
 										
 										//get product info
@@ -140,6 +142,7 @@ $search_value = "";
 									<th><?php echo $quantity; ?></th>
 									<th><?php echo $odate; ?></th>
 									<th><?php echo $ddate; ?></th>
+                                    <th><?php echo $rdate; ?></th>
 									<th><?php echo $oplace; ?></th>
 									<th><?php echo $dstatus; ?></th>
 									<th><?php echo '<div class="home-prodlist-img"><a href="OurProducts/view_product.php?pid='.$pId.'">

@@ -46,7 +46,7 @@ if (isset($_POST['order'])) {
 //declere veriable
 $mbl = $_POST['mobile'];
 $addr = $_POST['address'];
-$del = $_POST['Delivery'];
+$del = substr($_POST['Delivery'],0,20);
 //triming name
 	try {
 		if(empty($_POST['mobile'])) {
@@ -87,6 +87,17 @@ $del = $_POST['Delivery'];
 							$pid = $get_p['pid'];
 
 							mysqli_query($ccon,"INSERT INTO orders (uid,pid,quantity,oplace,mobile,odate,delivery) VALUES ('$user','$pid',$num,'$_POST[address]','$_POST[mobile]','$d','$del')");
+							//decrease available qty
+                            $getposts = mysqli_query($ccon,"SELECT * FROM products WHERE id ='$pid'") or die(mysqli_error());
+                            if (mysqli_num_rows($getposts)) {
+                                $row = mysqli_fetch_assoc($getposts);
+                                $available =$row['available'];
+                                $remainingQty=$available-$num;
+
+                                //update
+                                if($result2 = mysqli_query($ccon,"UPDATE products SET available=$remainingQty WHERE id='$pid'")){}
+
+                            }
 						}
 							
 						if(mysqli_query($ccon,"DELETE FROM cart WHERE uid='$user'")){
@@ -96,7 +107,9 @@ $del = $_POST['Delivery'];
 						$success_message = '
 						<div class="signupform_content">
 						<h2><font face="bookman"></font></h2>
-
+                        <script>
+						alert("We will call you for confirmation very soon");
+						</script>
 						<div class="signupform_text" style="font-size: 18px; text-align: center;">
 						<font face="bookman">
 
