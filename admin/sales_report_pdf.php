@@ -38,6 +38,7 @@ $output = '
 				<tr style="font-weight: bold;" colspan="10" bgcolor="#4DB849">
 					<th>Customer Id</th>
 					<th>Customer Name</th>
+					<th>Product Name</th>
 					<th>Payment</th>
 				</tr>
 				';
@@ -58,11 +59,13 @@ while ($row=mysqli_fetch_assoc($run)) {
 	$run2 = mysqli_query($ccon,$query2);
 	$row2=mysqli_fetch_assoc($run2);
 	$pPrice = $row2['price'];
+	$pName=$row2['pName'];
 	$payment = $pPrice * $quantity;
 	$total+=$payment;
 	$output .=
 			'<tr><th>'.$uid.'</th>
 			<th>'.$FirstName.'</th>
+			<th>'.$pName.'</th>
 			<th>'.$payment.'Php</th>
 			</tr>';
 }
@@ -70,6 +73,7 @@ while ($row=mysqli_fetch_assoc($run)) {
 $output .= 
 				'<tr style="font-weight: bold;" colspan="10" bgcolor="#4DB849">
 					<th>Total Sales</th>
+					<th></th>
 					<th></th>
 					<th>'.$total.'Php</th>
 				</tr>

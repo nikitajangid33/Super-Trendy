@@ -89,7 +89,7 @@ else {
 					<th>Payent</th>
 					<th>Date of Delivery</th>
 					<th>Type of Delivery</th>
-					<th>Delevery Address</th>
+					<th>Delivery Address</th>
 				</tr>
 				<tr>
 					<?php include ( "../inc/connect.inc.php");

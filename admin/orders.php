@@ -90,7 +90,8 @@ else {
 					<th>Mobile</th>
 					<th>Order Status</th>
 					<th>Order Date</th>
-					<th>Delevery Date</th>
+					<th>Delivery Date</th>
+                    <th>Return Date</th>
 					<th>User Name</th>
 					<th>User Mobile</th>
 					<th>User Email</th>
@@ -110,6 +111,7 @@ else {
 						$odstatus = $row['dstatus'];
 						$odate = $row['odate'];
 						$ddate = $row['ddate'];
+                        $rdate = $row['rdate'];
 						//getting user info
 						$query1 = "SELECT * FROM user WHERE id='$ouid'";
 						$run1 = mysqli_query($ccon,$query1);
@@ -138,7 +140,7 @@ else {
 					<th><?php echo $odstatus; ?></th>
 					<th><?php echo $odate; ?></th>
 					<th><?php echo $ddate; ?></th>
-
+                    <th><?php echo $rdate; ?></th>
 					<th><?php echo $ofname; ?></th>
 					<th><?php echo $oumobile; ?></th>
 					<th><?php echo $ouemail; ?></th>

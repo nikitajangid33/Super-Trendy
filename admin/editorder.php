@@ -68,13 +68,14 @@ if (isset($_POST['order'])) {
 $eodstatus = $_POST['dstatus'];
 $dquantity = $_POST['quantity'];
 $ddate = $_POST['ddate'];
+$rdate = $_POST['rdate'];
 //triming name
 	try {
 		if(empty($_POST['dstatus'])) {
 			throw new Exception('Status can not be empty');
 			
 		}
-				if(mysqli_query($ccon,"UPDATE orders SET dstatus='$eodstatus', ddate='$ddate', quantity='$dquantity' WHERE id='$eoid'")){
+				if(mysqli_query($ccon,"UPDATE orders SET dstatus='$eodstatus',rdate='$rdate', ddate='$ddate', quantity='$dquantity' WHERE id='$eoid'")){
 					//success message
 				header('location: editorder.php?eoid='.$eoid.'');
 				$success_message = '
@@ -165,7 +166,7 @@ $search_value = "";
 	<div class="holecontainer" style=" padding-top: 20px; padding: 0 20%">
 		<div class="container signupform_content ">
 			<div>
-				<h2 style="padding-bottom: 20px;">Change Delevary Status</h2>
+				<h2 style="padding-bottom: 20px;">Change Delivery Status</h2>
 				<div style="float: right;">
 				<?php 
 					echo '
@@ -174,11 +175,16 @@ $search_value = "";
 						<div>
 							<form action="" method="POST" class="registration">
 								<div class="signup_form" style="    margin-top: 38px;">
-									<div>
+									<div class="label_content11" style="float: left;">
 										<td>
-											<input name="ddate" placeholder="Delevary date" required="required" class="email signupbox" type="date" size="30" value="'.$eddate.'">
+											<input name="ddate" placeholder="Delivery date" required="required" class="email signupbox" type="date" size="30" value="'.$eddate.'">
 										</td>
 									</div>
+									<div>
+									<td>
+										<input name="rdate" placeholder="Return date" required="required" class="email signupbox" type="date" size="30" value="'.$eddate.'">
+										</td>
+                                    </div>
 									<div>
 										<td>
 											<select name="dstatus" required="required" style=" font-size: 20px;
