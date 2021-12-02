@@ -92,6 +92,7 @@ else {
 					<th>Order Date</th>
 					<th>Delivery Date</th>
                     <th>Return Date</th>
+                    <th>Payment Mode</th>
 					<th>User Name</th>
 					<th>User Mobile</th>
 					<th>User Email</th>
@@ -112,6 +113,7 @@ else {
 						$odate = $row['odate'];
 						$ddate = $row['ddate'];
                         $rdate = $row['rdate'];
+                        $mode = $row['mode'];
 						//getting user info
 						$query1 = "SELECT * FROM user WHERE id='$ouid'";
 						$run1 = mysqli_query($ccon,$query1);
@@ -141,6 +143,7 @@ else {
 					<th><?php echo $odate; ?></th>
 					<th><?php echo $ddate; ?></th>
                     <th><?php echo $rdate; ?></th>
+                    <th><?php echo $mode; ?></th>
 					<th><?php echo $ofname; ?></th>
 					<th><?php echo $oumobile; ?></th>
 					<th><?php echo $ouemail; ?></th>
